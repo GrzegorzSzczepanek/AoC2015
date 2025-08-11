@@ -72,7 +72,6 @@ class Tokenizer:
                 self._consume()
                 continue
 
-            # 1) Handle integer literals first
             elif current_char.isdigit():
                 buf = ""
                 buf += self._consume()
@@ -80,7 +79,6 @@ class Tokenizer:
                     buf += self._consume()
                 tokens.append(Token(Operation.INT_LIT, self._line_count, buf))
 
-            # 2) Then handle identifiers/keywords (start with a letter)
             elif current_char.isalpha():
                 buf = ""
                 buf += self._consume()
@@ -220,7 +218,6 @@ class Parser:
             term = self._m_allocator.emplace(NodeTerm, term_int_lit)
             return term
 
-        # Try to parse an identifier
         if ident := self._try_consume(Operation.IDENT):
             expr_ident = self._m_allocator.emplace(NodeTermIdent, ident)
             term = self._m_allocator.emplace(NodeTerm, expr_ident)
